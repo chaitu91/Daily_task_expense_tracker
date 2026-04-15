@@ -15,6 +15,7 @@
             --accent-secondary: #7c3aed;
             --accent-warning: #f59e0b;
             --accent-danger: #ef4444;
+            --accent-info: #3b82f6;
             --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
             --text-muted: #71717a;
@@ -41,6 +42,240 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* User Profile Section */
+        .user-section {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .user-details p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* User Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Break Button Section */
+        .break-section {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .break-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .break-icon {
+            font-size: 2rem;
+            animation: coffeeSteam 2s ease-in-out infinite;
+        }
+
+        @keyframes coffeeSteam {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-5px); opacity: 0.7; }
+        }
+
+        .break-text h4 {
+            color: var(--accent-warning);
+            margin-bottom: 5px;
+        }
+
+        .break-text p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .break-timer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-warning);
+            margin-right: 20px;
+        }
+
+        .btn-break {
+            background: linear-gradient(135deg, var(--accent-warning), #d97706);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-break:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-break.active {
+            background: linear-gradient(135deg, var(--accent-danger), #dc2626);
+            animation: pulseBreak 1.5s infinite;
+        }
+
+        @keyframes pulseBreak {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+        }
+
+        .btn-break:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Header */
@@ -187,6 +422,17 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
         }
 
         /* Task List */
@@ -466,6 +712,18 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .user-section {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .break-section {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
             .input-grid {
                 grid-template-columns: 1fr;
             }
@@ -516,11 +774,129 @@
             pointer-events: none;
             animation: confetti 1s ease-out forwards;
         }
+
+        /* Break overlay */
+        .break-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .break-overlay.active {
+            display: flex;
+        }
+
+        .break-overlay h2 {
+            font-size: 3rem;
+            color: var(--accent-warning);
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .break-overlay .break-timer-large {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent-warning);
+        }
+
+        .break-overlay p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .btn-end-break {
+            background: linear-gradient(135deg, var(--accent-primary), #00b894);
+            color: var(--bg-primary);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-end-break:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(0, 212, 170, 0.4);
+        }
     </style>
 <base target="_blank">
 </head>
 <body>
     <div class="container">
+        <!-- User Profile Section -->
+        <div class="user-section" id="userSection">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">👤</div>
+                <div class="user-details">
+                    <h3 id="userName">Welcome, Guest</h3>
+                    <p id="userWorkspace">Click edit to set up your workspace</p>
+                </div>
+            </div>
+            <div class="user-actions">
+                <button class="btn-edit" onclick="openUserModal()">✏️ Edit Profile</button>
+            </div>
+        </div>
+
+        <!-- User Modal -->
+        <div class="modal-overlay" id="userModal">
+            <div class="modal">
+                <h2>👤 Set Up Your Profile</h2>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="userNameInput" placeholder="Enter your name...">
+                </div>
+                <div class="form-group">
+                    <label>Workspace/Department</label>
+                    <input type="text" id="userWorkspaceInput" placeholder="e.g., Development, Marketing...">
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveUserProfile()">Save Profile</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Break Section -->
+        <div class="break-section" id="breakSection">
+            <div class="break-info">
+                <div class="break-icon">☕</div>
+                <div class="break-text">
+                    <h4>Need a Break?</h4>
+                    <p>Pause all tasks and take a moment to recharge</p>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class="break-timer" id="breakTimer" style="display: none;">00:00:00</div>
+                <button class="btn-break" id="breakBtn" onclick="toggleBreak()">
+                    <span>☕</span> Take Break
+                </button>
+            </div>
+        </div>
+
+        <!-- Break Overlay (Full Screen) -->
+        <div class="break-overlay" id="breakOverlay">
+            <h2>☕ Break Time</h2>
+            <div class="break-timer-large" id="breakTimerLarge">00:00:00</div>
+            <p>Relax and recharge. Your tasks are paused.</p>
+            <button class="btn-end-break" onclick="endBreak()">▶ Resume Work</button>
+        </div>
+
         <!-- Header -->
         <div class="header">
             <h1>⚡ Daily Task Tracker</h1>
@@ -614,8 +990,8 @@
                     <div class="summary-value" id="completionRate">0%</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Most Active Hour</div>
-                    <div class="summary-value" id="mostActiveHour">--:--</div>
+                    <div class="summary-label">Break Time Taken</div>
+                    <div class="summary-value" id="breakTimeTotal">00:00:00</div>
                 </div>
             </div>
         </div>
@@ -628,6 +1004,20 @@
         let activeTimer = null;
         let currentlyRunningTaskId = null;
 
+        // User Profile
+        let userProfile = {
+            name: '',
+            workspace: ''
+        };
+
+        // Break Management
+        let breakState = {
+            isOnBreak: false,
+            startTime: null,
+            totalBreakTime: 0,
+            timer: null
+        };
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateDate();
@@ -638,7 +1028,8 @@
                 if (e.key === 'Enter') addTask();
             });
 
-            // Load from localStorage if available
+            // Load from localStorage
+            loadUserProfile();
             loadTasks();
         });
 
@@ -648,6 +1039,130 @@
             document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
         }
 
+        // User Profile Functions
+        function openUserModal() {
+            document.getElementById('userModal').classList.add('active');
+            document.getElementById('userNameInput').value = userProfile.name;
+            document.getElementById('userWorkspaceInput').value = userProfile.workspace;
+            document.getElementById('userNameInput').focus();
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('active');
+        }
+
+        function saveUserProfile() {
+            const name = document.getElementById('userNameInput').value.trim();
+            const workspace = document.getElementById('userWorkspaceInput').value.trim();
+
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+
+            userProfile = { name, workspace };
+            updateUserDisplay();
+            saveUserProfileToStorage();
+            closeUserModal();
+        }
+
+        function updateUserDisplay() {
+            const avatar = document.getElementById('userAvatar');
+            const nameEl = document.getElementById('userName');
+            const workspaceEl = document.getElementById('userWorkspace');
+
+            if (userProfile.name) {
+                avatar.textContent = userProfile.name.charAt(0).toUpperCase();
+                nameEl.textContent = `Welcome, ${userProfile.name}`;
+                workspaceEl.textContent = userProfile.workspace || 'Your Workspace';
+            } else {
+                avatar.textContent = '👤';
+                nameEl.textContent = 'Welcome, Guest';
+                workspaceEl.textContent = 'Click edit to set up your workspace';
+            }
+        }
+
+        // Break Functions
+        function toggleBreak() {
+            if (breakState.isOnBreak) {
+                endBreak();
+            } else {
+                startBreak();
+            }
+        }
+
+        function startBreak() {
+            // Pause any running task first
+            if (currentlyRunningTaskId) {
+                pauseTask(currentlyRunningTaskId, true); // true = isBreakPause
+            }
+
+            breakState.isOnBreak = true;
+            breakState.startTime = Date.now();
+
+            // Update UI
+            const breakBtn = document.getElementById('breakBtn');
+            const breakTimer = document.getElementById('breakTimer');
+            const breakOverlay = document.getElementById('breakOverlay');
+
+            breakBtn.innerHTML = '<span>⏹</span> End Break';
+            breakBtn.classList.add('active');
+            breakTimer.style.display = 'block';
+            breakOverlay.classList.add('active');
+
+            // Start break timer
+            breakState.timer = setInterval(updateBreakTimer, 1000);
+            updateBreakTimer();
+
+            saveBreakState();
+        }
+
+        function endBreak() {
+            if (!breakState.isOnBreak) return;
+
+            // Calculate break duration
+            const breakDuration = Date.now() - breakState.startTime;
+            breakState.totalBreakTime += breakDuration;
+
+            breakState.isOnBreak = false;
+            breakState.startTime = null;
+
+            // Clear timer
+            if (breakState.timer) {
+                clearInterval(breakState.timer);
+                breakState.timer = null;
+            }
+
+            // Update UI
+            const breakBtn = document.getElementById('breakBtn');
+            const breakTimer = document.getElementById('breakTimer');
+            const breakOverlay = document.getElementById('breakOverlay');
+
+            breakBtn.innerHTML = '<span>☕</span> Take Break';
+            breakBtn.classList.remove('active');
+            breakTimer.style.display = 'none';
+            breakOverlay.classList.remove('active');
+
+            // Reset break timer display
+            breakTimer.textContent = '00:00:00';
+            document.getElementById('breakTimerLarge').textContent = '00:00:00';
+
+            updateSummary();
+            saveBreakState();
+        }
+
+        function updateBreakTimer() {
+            if (!breakState.isOnBreak || !breakState.startTime) return;
+
+            const currentBreakTime = Date.now() - breakState.startTime;
+            const totalTime = breakState.totalBreakTime + currentBreakTime;
+
+            const timeString = formatTime(currentBreakTime);
+            document.getElementById('breakTimer').textContent = timeString;
+            document.getElementById('breakTimerLarge').textContent = timeString;
+        }
+
+        // Task Functions
         function addTask() {
             const taskInput = document.getElementById('taskInput');
             const typeInput = document.getElementById('typeInput');
@@ -679,13 +1194,19 @@
             renderTasks();
             updateStats();
 
-            // Auto-start if no task is running
-            if (!currentlyRunningTaskId) {
+            // Auto-start if no task is running and not on break
+            if (!currentlyRunningTaskId && !breakState.isOnBreak) {
                 startTask(task.id);
             }
         }
 
         function startTask(id) {
+            // Cannot start if on break
+            if (breakState.isOnBreak) {
+                alert('Please end your break first before starting a task.');
+                return;
+            }
+
             // Pause any currently running task
             if (currentlyRunningTaskId && currentlyRunningTaskId !== id) {
                 pauseTask(currentlyRunningTaskId);
@@ -709,7 +1230,7 @@
             updateStats();
         }
 
-        function pauseTask(id) {
+        function pauseTask(id, isBreakPause = false) {
             const task = tasks.find(t => t.id === id);
             if (!task || task.status !== 'active') return;
 
@@ -730,8 +1251,10 @@
             }
 
             saveTasks();
-            renderTasks();
-            updateStats();
+            if (!isBreakPause) {
+                renderTasks();
+                updateStats();
+            }
         }
 
         function completeTask(id) {
@@ -790,7 +1313,6 @@
                 timerElement.textContent = formatTime(currentTime);
             }
 
-            // Update total time in stats
             updateTotalTime();
         }
 
@@ -917,7 +1439,6 @@
         }
 
         function updateSummary() {
-            // Calculate work vs personal time
             let workTime = 0;
             let personalTime = 0;
 
@@ -937,16 +1458,17 @@
             document.getElementById('workTime').textContent = formatTime(workTime);
             document.getElementById('personalTime').textContent = formatTime(personalTime);
 
-            // Completion rate
             const completed = tasks.filter(t => t.status === 'completed').length;
             const total = tasks.length;
             const rate = total > 0 ? Math.round((completed / total) * 100) : 0;
             document.getElementById('completionRate').textContent = `${rate}%`;
 
-            // Most active hour (simplified)
-            const now = new Date();
-            document.getElementById('mostActiveHour').textContent = 
-                tasks.length > 0 ? `${now.getHours().toString().padStart(2, '0')}:00` : '--:--';
+            // Update break time
+            let currentBreakTotal = breakState.totalBreakTime;
+            if (breakState.isOnBreak && breakState.startTime) {
+                currentBreakTotal += Date.now() - breakState.startTime;
+            }
+            document.getElementById('breakTimeTotal').textContent = formatTime(currentBreakTotal);
         }
 
         function createConfetti() {
@@ -977,11 +1499,13 @@
 
             const report = {
                 date: date,
+                user: userProfile,
                 totalTasks: tasks.length,
                 completedTasks: tasks.filter(t => t.status === 'completed').length,
                 totalTime: document.getElementById('totalTime').textContent,
                 workTime: formatTime(workTime),
                 personalTime: formatTime(personalTime),
+                breakTime: formatTime(breakState.totalBreakTime + (breakState.isOnBreak ? Date.now() - breakState.startTime : 0)),
                 tasks: tasks.map(t => ({
                     name: t.name,
                     type: t.type,
@@ -992,11 +1516,11 @@
                 }))
             };
 
-            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' })
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `daily-report-${date}.json`;
+            a.download = `daily-report-${userProfile.name || 'guest'}-${date}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1005,7 +1529,7 @@
             alert('Report exported successfully! 📊');
         }
 
-        // LocalStorage functions
+        // Storage Functions
         function saveTasks() {
             localStorage.setItem('dailyTasks', JSON.stringify(tasks));
             localStorage.setItem('taskCounter', taskIdCounter.toString());
@@ -1017,7 +1541,6 @@
 
             if (saved) {
                 tasks = JSON.parse(saved);
-                // Restore running task if page was refreshed
                 tasks.forEach(task => {
                     if (task.status === 'active') {
                         task.status = 'paused';
@@ -1034,13 +1557,43 @@
             updateStats();
         }
 
+        function saveUserProfileToStorage() {
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        }
+
+        function loadUserProfile() {
+            const saved = localStorage.getItem('userProfile');
+            if (saved) {
+                userProfile = JSON.parse(saved);
+                updateUserDisplay();
+            }
+        }
+
+        function saveBreakState() {
+            localStorage.setItem('breakState', JSON.stringify({
+                totalBreakTime: breakState.totalBreakTime,
+                isOnBreak: false // Reset on reload
+            }));
+        }
+
+        function loadBreakState() {
+            const saved = localStorage.getItem('breakState');
+            if (saved) {
+                const savedState = JSON.parse(saved);
+                breakState.totalBreakTime = savedState.totalBreakTime || 0;
+            }
+        }
+
         // Warn before leaving if timer is running
         window.addEventListener('beforeunload', function(e) {
-            if (currentlyRunningTaskId) {
+            if (currentlyRunningTaskId || breakState.isOnBreak) {
                 e.preventDefault();
-                e.returnValue = 'You have an active timer running. Are you sure you want to leave?';
+                e.returnValue = 'You have an active timer or break running. Are you sure you want to leave?';
             }
         });
+
+        // Load break state on init
+        loadBreakState();
     </script>
 </body>
 </html>
