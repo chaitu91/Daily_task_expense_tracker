@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Task Tracker</title>
+    <title>Daily Task & Expense Tracker</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -301,6 +301,46 @@
             font-family: 'JetBrains Mono', monospace;
             color: var(--text-secondary);
             font-size: 1.1rem;
+        }
+
+        .tab-bar {
+            display: inline-flex;
+            gap: 10px;
+            padding: 8px;
+            margin-bottom: 25px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+        }
+
+        .tab-btn {
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .tab-btn.active {
+            color: var(--bg-primary);
+            background: linear-gradient(135deg, var(--accent-primary), #00b894);
+            box-shadow: 0 10px 25px rgba(0, 212, 170, 0.2);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
         }
 
         /* Stats Bar */
@@ -710,6 +750,86 @@
             color: var(--text-primary);
         }
 
+        .expense-list {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .expense-list-header {
+            display: grid;
+            grid-template-columns: 60px 1.6fr 140px 140px 150px 110px;
+            padding: 20px 25px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .expense-item {
+            display: grid;
+            grid-template-columns: 60px 1.6fr 140px 140px 150px 110px;
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: background 0.3s ease;
+            animation: slideIn 0.4s ease;
+        }
+
+        .expense-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .expense-name {
+            font-weight: 600;
+        }
+
+        .expense-amount {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-warning);
+            font-weight: 700;
+        }
+
+        .expense-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .category-food {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .category-personal {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .category-household {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-info);
+        }
+
+        .category-bills {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .user-section {
@@ -724,21 +844,34 @@
                 text-align: center;
             }
 
+            .tab-bar {
+                display: flex;
+                width: 100%;
+            }
+
+            .tab-btn {
+                flex: 1;
+            }
+
             .input-grid {
                 grid-template-columns: 1fr;
             }
 
             .task-list-header,
-            .task-item {
+            .task-item,
+            .expense-list-header,
+            .expense-item {
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
 
-            .task-list-header {
+            .task-list-header,
+            .expense-list-header {
                 display: none;
             }
 
-            .task-item {
+            .task-item,
+            .expense-item {
                 padding: 20px;
                 border: 1px solid var(--border-color);
                 margin-bottom: 10px;
@@ -899,10 +1032,16 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>⚡ Daily Task Tracker</h1>
+            <h1>⚡ Daily Task & Expense Tracker</h1>
             <div class="date-display" id="currentDate"></div>
         </div>
 
+        <div class="tab-bar">
+            <button class="tab-btn active" id="tasksTabBtn" onclick="switchTab('tasks')">Tasks</button>
+            <button class="tab-btn" id="expensesTabBtn" onclick="switchTab('expenses')">Expenses</button>
+        </div>
+
+        <div class="tab-panel active" id="tasksPanel">
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-card">
@@ -995,6 +1134,95 @@
                 </div>
             </div>
         </div>
+        </div>
+
+        <div class="tab-panel" id="expensesPanel">
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-label">Today's Expenses</div>
+                    <div class="stat-value" id="totalExpensesCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Today's Spend</div>
+                    <div class="stat-value" id="totalExpenseAmount">Rs 0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Top Category</div>
+                    <div class="stat-value" id="topExpenseCategory">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average Spend</div>
+                    <div class="stat-value" id="averageExpenseAmount">Rs 0.00</div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="form-group">
+                        <label>Expense Name</label>
+                        <input type="text" id="expenseNameInput" placeholder="Enter expense name...">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="expenseAmountInput" placeholder="0.00" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="expenseCategoryInput">
+                            <option value="food">Food</option>
+                            <option value="personal">Personal</option>
+                            <option value="household">Household</option>
+                            <option value="bills">Bills</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="addExpense()">
+                        <span>+</span> Add Expense
+                    </button>
+                </div>
+            </div>
+
+            <div class="expense-list">
+                <div class="expense-list-header">
+                    <div>#</div>
+                    <div>Name</div>
+                    <div>Amount</div>
+                    <div>Category</div>
+                    <div>Date</div>
+                    <div>Actions</div>
+                </div>
+                <div id="expenseListContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">$</div>
+                        <p>No expenses added yet. Track your first spending item above!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h2>Expense Summary</h2>
+                    <button class="export-btn" onclick="exportData()">Export Report</button>
+                </div>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">Food</div>
+                        <div class="summary-value" id="foodExpenseTotal">Rs 0.00</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Personal</div>
+                        <div class="summary-value" id="personalExpenseTotal">Rs 0.00</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Household</div>
+                        <div class="summary-value" id="householdExpenseTotal">Rs 0.00</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Bills</div>
+                        <div class="summary-value" id="billsExpenseTotal">Rs 0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1003,6 +1231,11 @@
         let taskIdCounter = 1;
         let activeTimer = null;
         let currentlyRunningTaskId = null;
+        let activeTab = 'tasks';
+
+        // Expense Management System
+        let expenses = [];
+        let expenseIdCounter = 1;
 
         // User Profile
         let userProfile = {
@@ -1028,15 +1261,33 @@
                 if (e.key === 'Enter') addTask();
             });
 
+            document.getElementById('expenseNameInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addExpense();
+            });
+
+            document.getElementById('expenseAmountInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addExpense();
+            });
+
             // Load from localStorage
             loadUserProfile();
             loadTasks();
+            loadExpenses();
+            switchTab(activeTab);
         });
 
         function updateDate() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            document.getElementById('tasksPanel').classList.toggle('active', tab === 'tasks');
+            document.getElementById('expensesPanel').classList.toggle('active', tab === 'expenses');
+            document.getElementById('tasksTabBtn').classList.toggle('active', tab === 'tasks');
+            document.getElementById('expensesTabBtn').classList.toggle('active', tab === 'expenses');
         }
 
         // User Profile Functions
@@ -1303,6 +1554,53 @@
             updateStats();
         }
 
+        function addExpense() {
+            const nameInput = document.getElementById('expenseNameInput');
+            const amountInput = document.getElementById('expenseAmountInput');
+            const categoryInput = document.getElementById('expenseCategoryInput');
+
+            const name = nameInput.value.trim();
+            const amount = parseFloat(amountInput.value);
+
+            if (!name) {
+                nameInput.style.borderColor = 'var(--accent-danger)';
+                setTimeout(() => nameInput.style.borderColor = '', 1000);
+                return;
+            }
+
+            if (Number.isNaN(amount) || amount <= 0) {
+                amountInput.style.borderColor = 'var(--accent-danger)';
+                setTimeout(() => amountInput.style.borderColor = '', 1000);
+                return;
+            }
+
+            const expense = {
+                id: expenseIdCounter++,
+                name: name,
+                amount: amount,
+                category: categoryInput.value,
+                createdAt: new Date().toISOString()
+            };
+
+            expenses.unshift(expense);
+            nameInput.value = '';
+            amountInput.value = '';
+            categoryInput.value = 'food';
+
+            saveExpenses();
+            renderExpenses();
+            updateExpenseStats();
+        }
+
+        function deleteExpense(id) {
+            if (!confirm('Are you sure you want to delete this expense?')) return;
+
+            expenses = expenses.filter(expense => expense.id !== id);
+            saveExpenses();
+            renderExpenses();
+            updateExpenseStats();
+        }
+
         function updateTimer(id) {
             const task = tasks.find(t => t.id === id);
             if (!task || task.status !== 'active') return;
@@ -1323,6 +1621,18 @@
             const seconds = totalSeconds % 60;
 
             return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function formatCurrency(amount) {
+            return `Rs ${amount.toFixed(2)}`;
+        }
+
+        function formatExpenseDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
         }
 
         function renderTasks() {
@@ -1389,6 +1699,39 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function renderExpenses() {
+            const container = document.getElementById('expenseListContainer');
+
+            if (expenses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">ðŸ’¸</div>
+                        <p>No expenses added yet. Track your first spending item above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = expenses.map((expense, index) => `
+                <div class="expense-item">
+                    <div class="task-number">${index + 1}</div>
+                    <div class="expense-name">${escapeHtml(expense.name)}</div>
+                    <div class="expense-amount">${formatCurrency(expense.amount)}</div>
+                    <div>
+                        <span class="category-badge category-${expense.category}">
+                            ${expense.category}
+                        </span>
+                    </div>
+                    <div class="expense-date">${formatExpenseDate(expense.createdAt)}</div>
+                    <div class="task-actions">
+                        <button class="btn-icon btn-delete" onclick="deleteExpense(${expense.id})" title="Delete">
+                            âœ•
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function getStatusIcon(status) {
@@ -1471,6 +1814,43 @@
             document.getElementById('breakTimeTotal').textContent = formatTime(currentBreakTotal);
         }
 
+        function updateExpenseStats() {
+            document.getElementById('totalExpensesCount').textContent = expenses.length;
+
+            const totals = {
+                food: 0,
+                personal: 0,
+                household: 0,
+                bills: 0
+            };
+
+            let totalAmount = 0;
+            expenses.forEach(expense => {
+                totalAmount += expense.amount;
+                if (Object.prototype.hasOwnProperty.call(totals, expense.category)) {
+                    totals[expense.category] += expense.amount;
+                }
+            });
+
+            const average = expenses.length ? totalAmount / expenses.length : 0;
+            const topCategory = Object.entries(totals).reduce(
+                (best, current) => current[1] > best[1] ? current : best,
+                ['-', 0]
+            );
+
+            document.getElementById('totalExpenseAmount').textContent = formatCurrency(totalAmount);
+            document.getElementById('averageExpenseAmount').textContent = formatCurrency(average);
+            document.getElementById('topExpenseCategory').textContent = topCategory[1] > 0 ? capitalize(topCategory[0]) : '-';
+            document.getElementById('foodExpenseTotal').textContent = formatCurrency(totals.food);
+            document.getElementById('personalExpenseTotal').textContent = formatCurrency(totals.personal);
+            document.getElementById('householdExpenseTotal').textContent = formatCurrency(totals.household);
+            document.getElementById('billsExpenseTotal').textContent = formatCurrency(totals.bills);
+        }
+
+        function capitalize(value) {
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
         function createConfetti() {
             const colors = ['#00d4aa', '#7c3aed', '#f59e0b', '#ef4444', '#22c55e'];
             for (let i = 0; i < 30; i++) {
@@ -1491,10 +1871,22 @@
             const date = new Date().toISOString().split('T')[0];
             let workTime = 0;
             let personalTime = 0;
+            const expenseTotals = {
+                food: 0,
+                personal: 0,
+                household: 0,
+                bills: 0
+            };
 
             tasks.forEach(task => {
                 if (task.type === 'work') workTime += task.timeSpent;
                 else personalTime += task.timeSpent;
+            });
+
+            expenses.forEach(expense => {
+                if (Object.prototype.hasOwnProperty.call(expenseTotals, expense.category)) {
+                    expenseTotals[expense.category] += expense.amount;
+                }
             });
 
             const report = {
@@ -1506,6 +1898,14 @@
                 workTime: formatTime(workTime),
                 personalTime: formatTime(personalTime),
                 breakTime: formatTime(breakState.totalBreakTime + (breakState.isOnBreak ? Date.now() - breakState.startTime : 0)),
+                totalExpenses: expenses.length,
+                totalExpenseAmount: expenses.reduce((sum, expense) => sum + expense.amount, 0).toFixed(2),
+                expenseTotals: {
+                    food: expenseTotals.food.toFixed(2),
+                    personal: expenseTotals.personal.toFixed(2),
+                    household: expenseTotals.household.toFixed(2),
+                    bills: expenseTotals.bills.toFixed(2)
+                },
                 tasks: tasks.map(t => ({
                     name: t.name,
                     type: t.type,
@@ -1513,6 +1913,12 @@
                     status: t.status,
                     timeSpent: formatTime(t.timeSpent),
                     completedAt: t.completedAt
+                })),
+                expenses: expenses.map(expense => ({
+                    name: expense.name,
+                    amount: expense.amount.toFixed(2),
+                    category: expense.category,
+                    createdAt: expense.createdAt
                 }))
             };
 
@@ -1555,6 +1961,30 @@
 
             renderTasks();
             updateStats();
+        }
+
+        function saveExpenses() {
+            localStorage.setItem('dailyExpenses', JSON.stringify(expenses));
+            localStorage.setItem('expenseCounter', expenseIdCounter.toString());
+        }
+
+        function loadExpenses() {
+            const saved = localStorage.getItem('dailyExpenses');
+            const counter = localStorage.getItem('expenseCounter');
+
+            if (saved) {
+                expenses = JSON.parse(saved).map(expense => ({
+                    ...expense,
+                    amount: Number(expense.amount)
+                }));
+            }
+
+            if (counter) {
+                expenseIdCounter = parseInt(counter, 10);
+            }
+
+            renderExpenses();
+            updateExpenseStats();
         }
 
         function saveUserProfileToStorage() {
